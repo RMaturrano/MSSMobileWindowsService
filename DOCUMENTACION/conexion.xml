@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Connection>
+
+  <HANA>
+    <BaseUrl>http://192.168.2.10:8000/MSS_MOBILE/service</BaseUrl>
+    <!-- <UrlServiceLayer>https://190.116.31.110:50000/b1s/v1</UrlServiceLayer> -->
+	<UrlServiceLayer>https://192.168.2.10:50000/b1s/v1</UrlServiceLayer>
+    
+    <GetEmpresa>company/getCompany.xsjs</GetEmpresa>
+    <GetOrdenVenta>salesorder/getSalesOrderDrf.xsjs</GetOrdenVenta>
+    <GetPagoRecibido>incomingpayment/getIncomingPaymentDrf.xsjs</GetPagoRecibido>
+    <GetSocioNegocio>businesspartner/getBusinessPartnerLead.xsjs</GetSocioNegocio>
+    <GetIncidencia>activity/getActivityDrf.xsjs</GetIncidencia>
+    <GetUbicaciones>geolocation/getLatLongToUpdate.xsjs</GetUbicaciones>
+    <GetDevolucion>returns/getReturnsDrf.xsjs</GetDevolucion>
+    <GetNotaCredito>creditmemo/getCreditMemosDrf.xsjs</GetNotaCredito>
+
+    <PatchOrdenVenta>salesorder/patchSalesOrderDrf.xsjs</PatchOrdenVenta>
+    <PatchPagoRecibido>incomingpayment/patchIncomingPaymentDrf.xsjs</PatchPagoRecibido>
+    <PatchSocioNegocio>businesspartner/patchBusinessPartnerDrf.xsjs</PatchSocioNegocio>
+    <PatchIncidencia>activity/patchActivityDrf.xsjs</PatchIncidencia>
+    <PatchUbicacion>geolocation/updateStateLatLong.xsjs</PatchUbicacion>
+    <PatchDevolucion>returns/patchReturnDrf.xsjs</PatchDevolucion>
+    <PatchNotaCredito>creditmemo/patchCreditMemoDrf.xsjs</PatchNotaCredito>
+
+    <ValidarOrden>salesorder/validateSalesOrder.xsjs</ValidarOrden>
+    <ValidarPago>incomingpayment/validateIncomingPayment.xsjs</ValidarPago>
+    <ValidarSocio>businesspartner/validateBusinessPartner.xsjs</ValidarSocio>
+    <ValidarIncidencia>activity/validateActivity.xsjs</ValidarIncidencia>
+    <ValidarDevolucion>returns/validateReturn.xsjs</ValidarDevolucion>
+    <ValidarNotaCredito>creditmemo/validateCreditMemo.xsjs</ValidarNotaCredito>
+    
+    <Json>C:\MSS_WS_MSSMobile\Json</Json>
+  </HANA>
+
+</Connection>

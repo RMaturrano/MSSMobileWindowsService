@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0DAA0F2C-44A2-4A7A-B56C-EF4D279D928A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WServMobile_Test</RootNamespace>
+    <AssemblyName>WServMobile_Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\DLLS\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\..\..\DLLS\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="connection\Connection.cs" />
+    <Compile Include="dao\ClienteDAO.cs" />
+    <Compile Include="dao\CompanyDAO.cs" />
+    <Compile Include="dao\DevolucionDAO.cs" />
+    <Compile Include="dao\DirectoryDAO.cs" />
+    <Compile Include="dao\GeolocalizacionDAO.cs" />
+    <Compile Include="dao\IncidenciaDAO.cs" />
+    <Compile Include="dao\LoginDAO.cs" />
+    <Compile Include="dao\LoteDAO.cs" />
+    <Compile Include="dao\NotaCreditoDAO.cs" />
+    <Compile Include="dao\OrdenVentaDAO.cs" />
+    <Compile Include="dao\PagoDAO.cs" />
+    <Compile Include="Devolucion.cs" />
+    <Compile Include="entity\ActivityBean.cs" />
+    <Compile Include="entity\AddressBean.cs" />
+    <Compile Include="entity\BatchNumberBean.cs" />
+    <Compile Include="entity\BusinessPartnerBean.cs" />
+    <Compile Include="entity\ClienteBean.cs" />
+    <Compile Include="entity\ClienteContactoBean.cs" />
+    <Compile Include="entity\ClienteDireccionBean.cs" />
+    <Compile Include="entity\CompanyBean.cs" />
+    <Compile Include="entity\ContactBean.cs" />
+    <Compile Include="entity\BusinessPartnerLocationBean.cs" />
+    <Compile Include="entity\AddressLocationBean.cs" />
+    <Compile Include="entity\DraftBatchLineBean.cs" />
+    <Compile Include="entity\DraftBatchBean.cs" />
+    <Compile Include="entity\DevolucionBean.cs" />
+    <Compile Include="entity\DevolucionDetalleBean.cs" />
+    <Compile Include="entity\DevolucionDetalleLoteBean.cs" />
+    <Compile Include="entity\DraftBean.cs" />
+    <Compile Include="entity\DraftLineBean.cs" />
+    <Compile Include="entity\GeolocalizacionBean.cs" />
+    <Compile Include="entity\IncidenciaBean.cs" />
+    <Compile Include="entity\IncomingPaymentBean.cs" />
+    <Compile Include="entity\NotaCreditoBean.cs" />
+    <Compile Include="entity\NotaCreditoDetalleBean.cs" />
+    <Compile Include="entity\NotaCreditoDetalleLoteBean.cs" />
+    <Compile Include="entity\OrdenVentaBean.cs" />
+    <Compile Include="entity\OrdenVentaDetalleBean.cs" />
+    <Compile Include="entity\PagoBean.cs" />
+    <Compile Include="entity\PagoDetalleBean.cs" />
+    <Compile Include="entity\PaymentCheckBean.cs" />
+    <Compile Include="entity\PaymentInvoiceBean.cs" />
+    <Compile Include="entity\RequestParBean.cs" />
+    <Compile Include="entity\ReturnBean.cs" />
+    <Compile Include="entity\ReturnLineBean.cs" />
+    <Compile Include="entity\SalesOrderBean.cs" />
+    <Compile Include="entity\SalesOrderLineBean.cs" />
+    <Compile Include="entity\SerialNumberBean.cs" />
+    <Compile Include="entity\SLLoginBean.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="helpers\Constant.cs" />
+    <Compile Include="helpers\RestCall.cs" />
+    <Compile Include="helpers\Util.cs" />
+    <Compile Include="Incidencia.cs" />
+    <Compile Include="MainProcess.cs" />
+    <Compile Include="NotaCredito.cs" />
+    <Compile Include="OrdenVenta.cs" />
+    <Compile Include="PagoRecibido.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocioNegocio.cs" />
+    <Compile Include="Ubicaciones.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="conexion.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
