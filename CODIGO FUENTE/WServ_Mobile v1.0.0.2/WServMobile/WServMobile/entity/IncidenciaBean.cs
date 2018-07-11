@@ -32,6 +32,7 @@ namespace WServMobile.entity
         public string Finalizado { get; set; }
         public int CodigoSAP { get; set; }
         public string Mensaje { get; set; }
+		public string Rango { get; set; }
         public int EMPRESA { get; set; }
     }
 }

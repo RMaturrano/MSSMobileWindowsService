@@ -226,6 +226,8 @@ namespace WServMobile.dao
                    (DateTime?) DateTime.ParseExact(incidencia.FechaPago,"yyyyMMdd", CultureInfo.InvariantCulture) : null;
 
                 activity.U_MSSM_TIP = incidencia.TipoIncidencia != null ? incidencia.TipoIncidencia : null;
+			
+                activity.U_MSSM_RAN = incidencia.Rango;
 
                 return activity;
             }
