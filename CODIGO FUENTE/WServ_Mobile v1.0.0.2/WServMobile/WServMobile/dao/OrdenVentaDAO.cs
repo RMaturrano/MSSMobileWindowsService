@@ -212,7 +212,7 @@ namespace WServMobile.dao
                 draft.ShipToCode = ordr.DireccionEntrega;
                 draft.PaymentGroupCode = int.Parse(ordr.CondicionPago);
                 draft.Indicator = ordr.Indicador;
-                //draft.Comments = ordr.Referencia;
+                draft.Comments = ordr.Comentario;
                 draft.U_MSSM_CRM = "Y";
                 draft.U_MSSM_CLM = ordr.ClaveMovil;
                 draft.U_MSSM_TRM = "02";
