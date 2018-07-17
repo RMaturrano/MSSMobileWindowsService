@@ -270,14 +270,14 @@ namespace WServMobile.dao
                 salesOrder.Project = ordr.Proyecto;
                 salesOrder.PaymentGroupCode = int.Parse(ordr.CondicionPago);
                 salesOrder.Indicator = ordr.Indicador;
-                salesOrder.Comments = ordr.Referencia;
+                salesOrder.Comments = ordr.Comentario;//ordr.Referencia;
                 salesOrder.U_MSSM_CRM = "Y";
                 salesOrder.U_MSSM_CLM = ordr.ClaveMovil;
                 salesOrder.U_MSSM_TRM = "05";
                 salesOrder.U_MSSM_MOL = ordr.ModoOffLine;
                 salesOrder.U_MSSM_LAT = ordr.Latitud;
                 salesOrder.U_MSSM_LON = ordr.Longitud;
-                salesOrder.U_MSSM_HOR = ordr.Hora;
+                salesOrder.U_MSSM_HOR = ordr.Hora; 
                 salesOrder.U_MSSM_RAN = ordr.RangoDireccion;
                 salesOrder.U_MSSL_MTR = ordr.motivoTraslado;
 
