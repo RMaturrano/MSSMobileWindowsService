@@ -135,7 +135,7 @@ namespace WServMobile.dao
                     {
                         string messageError = response.Content.ToString();
                         MainProcess.log.Error("IncidenciaDAO > actualizarPropiedades() > Document " +
-                        claveMovil + " > " + messageError);
+                        claveMovil + " > " + Util.replaceEscChar(messageError));
                     }
                 }
                 else

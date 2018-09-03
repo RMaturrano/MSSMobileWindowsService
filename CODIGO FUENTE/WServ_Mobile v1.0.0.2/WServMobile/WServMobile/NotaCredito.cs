@@ -22,13 +22,26 @@ namespace WServMobile
 
                 if (listNotaCredito.Count > 0)
                 {
-                    IRestResponse loginResp = LoginDAO.iniciarSesion(sociedad, MainProcess.mConn.urlServiceLayer);
-                    if (loginResp.StatusCode == HttpStatusCode.OK)
-                    {
-                        SessionId = loginResp.Cookies[0].Value.ToString();
-                        RouteId = loginResp.Cookies[1].Value.ToString();
-                        //LoteDAO.invoke(SessionId, RouteId, MainProcess.mConn.urlServiceLayer);
+                    SessionId = sociedad.sessionId;
+                    RouteId = sociedad.routeId;
 
+                    if (!sociedad.inSession)
+                    {
+                        IRestResponse loginResp = LoginDAO.iniciarSesion(sociedad, MainProcess.mConn.urlServiceLayer);
+                        if (loginResp.StatusCode == HttpStatusCode.OK)
+                        {
+                            sociedad.inSession = true;
+                            SessionId = loginResp.Cookies[0].Value.ToString();
+                            RouteId = loginResp.Cookies[1].Value.ToString();
+                            sociedad.sessionId = SessionId;
+                            sociedad.routeId = RouteId;
+                        }
+                        else
+                            MainProcess.log.Error("Login Failed >" + sociedad.descripcion + " > " + loginResp.Content);
+                    }
+
+                    if (sociedad.inSession)
+                    {
                         foreach (var notacredito in listNotaCredito)
                         {
                             if (!NotaCreditoDAO.validarNotaCredito(MainProcess.mConn.urlValidarNotaCredito
@@ -46,20 +59,11 @@ namespace WServMobile
                             }
                         }
                     }
-                    else
-                    {
-                        MainProcess.log.Error("Login Failed >" + sociedad.descripcion + " > " + loginResp.Content);
-                    }
                 }
             }
             catch (Exception ex)
             {
                 MainProcess.log.Error("NotaCredito > registrarNotasCreditoEnSAP() > " + ex.Message);
-            }
-            finally
-            {
-                if (!string.IsNullOrEmpty(SessionId) && !string.IsNullOrEmpty(RouteId))
-                    LoginDAO.cerrarSesion(SessionId, RouteId, MainProcess.mConn.urlServiceLayer);
             }
         }
     }

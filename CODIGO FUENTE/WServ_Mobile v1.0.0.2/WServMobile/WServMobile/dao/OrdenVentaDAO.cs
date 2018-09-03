@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WServMobile.entity;
+using WServMobile.entity.sl;
 using WServMobile.helpers;
 
 namespace WServMobile.dao
@@ -85,68 +86,39 @@ namespace WServMobile.dao
             return exists;
         }
 
-        public static int registrarOrdenVenta(string sessionId, string routeId, string urlSL, OrdenVentaBean orden, string tipoOrden = null)
+        public static int registrarOrdenVenta(string sessionId, string routeId, string urlSL, OrdenVentaBean orden, string tipoOrden = null, bool isLocEnabled = true)
         {
             int res = -1;
             try
             {
                 if (string.IsNullOrEmpty(tipoOrden) || tipoOrden.Equals(Constant.DOCUMENTO_BORRADOR))
                 {
-                    var document = transformOrdrToDraft(orden);
-                    if (document != null)
+                    if (isLocEnabled)
                     {
-                        File.WriteAllText(Util.castURL(MainProcess.mConn.pathJSONLog, "\\") + "ORDEN_" + orden.ClaveMovil
-                                        + ".json",
-                                        SimpleJson.SerializeObject(document));
-                        IRestResponse response = makeRequest(Util.castURL(urlSL, "/") + Constant.DRAFTS, Method.POST, sessionId, routeId, document);
-                        if (response.StatusCode == System.Net.HttpStatusCode.Created)
-                        {
-                            JObject jObject = JObject.Parse(response.Content.ToString());
-                            res = int.Parse(jObject["DocEntry"].ToString().Trim());
-                        }
-                        else
-                        {
-                            res = -1;
-                            MainProcess.log.Error("OrdenVentaDAO > registrarOrdenVenta() > Document Draft " +
-                                orden.ClaveMovil + " > " + response.Content);
-                        }
+                        var document = transformOrdrToDraft(orden);
+                        if (document != null)
+                            res = enviarOrden(document, orden.ClaveMovil, urlSL, sessionId, routeId, Constant.DRAFTS, orden.EMPRESA);
+                    }
+                    else
+                    {
+                        var document = transformOrdrToDraftNoLoc(orden);
+                        if (document != null)
+                            res = enviarOrden(document, orden.ClaveMovil, urlSL, sessionId, routeId, Constant.DRAFTS, orden.EMPRESA);
                     }
                 }
                 else
                 {
-                    var document = transformOrdr(orden);
-                    if (document != null)
+                    if (isLocEnabled)
                     {
-                        File.WriteAllText(Util.castURL(MainProcess.mConn.pathJSONLog, "\\") + orden.ClaveMovil
-                                        + ".json",
-                                        SimpleJson.SerializeObject(document));
-                        IRestResponse response = makeRequest(Util.castURL(urlSL, "/") + Constant.ORDERS, Method.POST, sessionId, routeId, document);
-                        if (response.StatusCode == System.Net.HttpStatusCode.Created)
-                        {
-                            JObject jObject = JObject.Parse(response.Content.ToString());
-                            res = int.Parse(jObject["DocEntry"].ToString().Trim());
-                        }
-                        else
-                        {
-                            JObject jObject = JObject.Parse(response.Content.ToString());
-                            string codeError = jObject["error"]["code"].ToString();
-
-                            if (!string.IsNullOrEmpty(codeError) && codeError.Equals("-2028"))
-                            {
-                                res = -99;
-                            }
-                            else
-                            {
-                                res = -1;
-                                MainProcess.log.Error("OrdenVentaDAO > registrarOrdenVenta() > Document Order " +
-                                    orden.ClaveMovil + " > " + response.Content);
-                                actualizarPropiedades(orden.ClaveMovil,
-                                    MainProcess.mConn.urlPatchOrdenVenta +
-                                                    "?empId=" + orden.EMPRESA +
-                                                    "&ordrId=" + orden.ClaveMovil,
-                                    "{\"Migrado\":\"N\", \"Mensaje\": \"" + Util.replaceEscChar(response.Content) + "\"}");
-                            }
-                        }
+                        var document = transformOrdr(orden);
+                        if (document != null)
+                            res = enviarOrden(document, orden.ClaveMovil, urlSL, sessionId, routeId, Constant.ORDERS, orden.EMPRESA);
+                    }
+                    else
+                    {
+                        var document = transformOrdrNoLoc(orden);
+                        if (document != null)
+                            res = enviarOrden(document, orden.ClaveMovil, urlSL, sessionId, routeId, Constant.ORDERS, orden.EMPRESA);
                     }
                 }
             }
@@ -154,6 +126,53 @@ namespace WServMobile.dao
             {
                 res = -1;
                 MainProcess.log.Error("OrdenVentaDAO > registrarOrdenVenta() > " + ex.Message);
+            }
+
+            return res;
+        }
+
+        public static int enviarOrden(object document, string claveMovil, string urlSL, string sessionId, 
+            string routeId, string docType, string empresa)
+        {
+            var res = -1;
+
+            try
+            {
+                File.WriteAllText(Util.castURL(MainProcess.mConn.pathJSONLog, "\\") + "ORDEN_" + claveMovil
+                                        + ".json",
+                                        SimpleJson.SerializeObject(document));
+                IRestResponse response = makeRequest(Util.castURL(urlSL, "/") + docType, Method.POST, sessionId, routeId, document);
+                if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    JObject jObject = JObject.Parse(response.Content.ToString());
+                    res = int.Parse(jObject["DocEntry"].ToString().Trim());
+                }
+                else
+                {
+                    JObject jObject = JObject.Parse(response.Content.ToString());
+                    string codeError = jObject["error"]["code"].ToString();
+
+                    if (!string.IsNullOrEmpty(codeError) && codeError.Equals("-2028"))
+                    {
+                        res = -99;
+                    }
+                    else
+                    {
+                        res = -1;
+                        MainProcess.log.Error("OrdenVentaDAO > registrarOrdenVenta() > Document " + docType + " " +
+                            claveMovil + " > " + response.Content);
+                        actualizarPropiedades(claveMovil,
+                            MainProcess.mConn.urlPatchOrdenVenta +
+                                            "?empId=" + empresa +
+                                            "&ordrId=" + claveMovil,
+                            "{\"Migrado\":\"N\", \"Mensaje\": \"" + Util.replaceEscChar(response.Content) + "\"}");
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                res = -1;
+                MainProcess.log.Error("OrdenVentaDAO > enviarOrden() > " + e.Message);
             }
 
             return res;
@@ -172,7 +191,7 @@ namespace WServMobile.dao
                     {
                         string messageError = response.Content.ToString();
                         MainProcess.log.Error("OrdenVentaDAO > actualizarEstado() > Document " +
-                        claveMovil + " > " + messageError);
+                        claveMovil + " > " + Util.replaceEscChar(messageError));
                     }
                 }
                 else
@@ -250,6 +269,65 @@ namespace WServMobile.dao
             }
         }
 
+        public static DraftNoLocBean transformOrdrToDraftNoLoc(OrdenVentaBean ordr)
+        {
+            try
+            {
+                var draft = new DraftNoLocBean();
+
+                draft.DocObjectCode = Constant.OBJCODE_SALES_ORDER;
+
+                if (!string.IsNullOrEmpty(ordr.Serie))
+                    draft.Series = int.Parse(ordr.Serie);
+
+                draft.CardCode = ordr.SocioNegocio;
+                draft.DocDate = DateTime.ParseExact(ordr.FechaContable, "yyyyMMdd", CultureInfo.InvariantCulture);
+                draft.DocDueDate = DateTime.ParseExact(ordr.FechaVencimiento, "yyyyMMdd", CultureInfo.InvariantCulture);
+                draft.TaxDate = draft.DocDate;
+                draft.Project = ordr.Proyecto;
+                draft.DocCurrency = ordr.Moneda;
+                draft.SalesPersonCode = int.Parse(ordr.EmpleadoVenta);
+                draft.PayToCode = ordr.DireccionFiscal;
+                draft.ShipToCode = ordr.DireccionEntrega;
+                draft.PaymentGroupCode = int.Parse(ordr.CondicionPago);
+                draft.Indicator = ordr.Indicador;
+                draft.Comments = ordr.Comentario;
+                draft.U_MSSM_CRM = "Y";
+                draft.U_MSSM_CLM = ordr.ClaveMovil;
+                draft.U_MSSM_TRM = "02";
+                draft.U_MSSM_MOL = ordr.ModoOffLine;
+                draft.U_MSSM_LAT = ordr.Latitud;
+                draft.U_MSSM_LON = ordr.Longitud;
+                draft.U_MSSM_HOR = ordr.Hora;
+                draft.U_MSSM_RAN = ordr.RangoDireccion;
+
+                var detalle = new List<DraftLineBean>();
+                foreach (var l in ordr.Lineas)
+                {
+                    detalle.Add(new DraftLineBean()
+                    {
+                        ItemCode = l.Articulo,
+                        UoMEntry = int.Parse(l.UnidadMedida),
+                        WarehouseCode = l.Almacen,
+                        Quantity = int.Parse(l.Cantidad, NumberStyles.AllowDecimalPoint),
+                        UnitPrice = double.Parse(l.PrecioUnitario),
+                        DiscountPercent = double.Parse(l.PorcentajeDescuento),
+                        TaxCode = l.Impuesto,
+                        ProjectCode = ordr.Proyecto
+                    });
+                }
+
+                draft.DocumentLines = detalle;
+
+                return draft;
+            }
+            catch (Exception ex)
+            {
+                MainProcess.log.Error("OrdenVentaDAO > transformOrdrToDraftNoLoc() > " + ex.Message);
+                return null;
+            }
+        }
+
         public static SalesOrderBean transformOrdr(OrdenVentaBean ordr)
         {
             try
@@ -304,6 +382,63 @@ namespace WServMobile.dao
             catch (Exception ex)
             {
                 MainProcess.log.Error("OrdenVentaDAO > transformOrdr() > " + ex.Message);
+                return null;
+            }
+        }
+
+        public static SalesOrderNoLocBean transformOrdrNoLoc(OrdenVentaBean ordr)
+        {
+            try
+            {
+                var salesOrder = new SalesOrderNoLocBean();
+
+                if (!string.IsNullOrEmpty(ordr.Serie))
+                    salesOrder.Series = int.Parse(ordr.Serie);
+
+                salesOrder.CardCode = ordr.SocioNegocio;
+                salesOrder.DocDate = DateTime.ParseExact(ordr.FechaContable, "yyyyMMdd", CultureInfo.InvariantCulture);
+                salesOrder.DocDueDate = DateTime.ParseExact(ordr.FechaVencimiento, "yyyyMMdd", CultureInfo.InvariantCulture);
+                salesOrder.TaxDate = salesOrder.DocDate;
+                salesOrder.DocCurrency = ordr.Moneda;
+                salesOrder.SalesPersonCode = int.Parse(ordr.EmpleadoVenta);
+                salesOrder.PayToCode = ordr.DireccionFiscal;
+                salesOrder.ShipToCode = ordr.DireccionEntrega;
+                salesOrder.Project = ordr.Proyecto;
+                salesOrder.PaymentGroupCode = int.Parse(ordr.CondicionPago);
+                salesOrder.Indicator = ordr.Indicador;
+                salesOrder.Comments = ordr.Comentario;//ordr.Referencia;
+                salesOrder.U_MSSM_CRM = "Y";
+                salesOrder.U_MSSM_CLM = ordr.ClaveMovil;
+                salesOrder.U_MSSM_TRM = "05";
+                salesOrder.U_MSSM_MOL = ordr.ModoOffLine;
+                salesOrder.U_MSSM_LAT = ordr.Latitud;
+                salesOrder.U_MSSM_LON = ordr.Longitud;
+                salesOrder.U_MSSM_HOR = ordr.Hora;
+                salesOrder.U_MSSM_RAN = ordr.RangoDireccion;
+
+                var detalle = new List<SalesOrderLineBean>();
+                foreach (var l in ordr.Lineas)
+                {
+                    detalle.Add(new SalesOrderLineBean()
+                    {
+                        ItemCode = l.Articulo,
+                        UoMEntry = int.Parse(l.UnidadMedida),
+                        WarehouseCode = l.Almacen,
+                        Quantity = int.Parse(l.Cantidad, NumberStyles.AllowDecimalPoint),
+                        UnitPrice = double.Parse(l.PrecioUnitario),
+                        DiscountPercent = double.Parse(l.PorcentajeDescuento),
+                        TaxCode = l.Impuesto,
+                        ProjectCode = ordr.Proyecto
+                    });
+                }
+
+                salesOrder.DocumentLines = detalle;
+
+                return salesOrder;
+            }
+            catch (Exception ex)
+            {
+                MainProcess.log.Error("OrdenVentaDAO > transformOrdrNoLoc() > " + ex.Message);
                 return null;
             }
         }

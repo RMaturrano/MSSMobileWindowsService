@@ -42,7 +42,8 @@ namespace WServMobile.helpers
                 newData = newData.Replace("{", "");
                 newData = newData.Replace("}", "");
                 newData = newData.Replace("[", "");
-                newData = newData.Replace("]", "");
+                newData = newData.Replace("]", ""); 
+                newData = newData.Replace("'", "");
                 newData = Regex.Replace(newData, @"\t|\n|\r", "");
             }
 

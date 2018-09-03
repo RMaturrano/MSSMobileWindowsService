@@ -25,8 +25,11 @@ namespace WServMobile
                     IRestResponse loginResp = LoginDAO.iniciarSesion(sociedad, MainProcess.mConn.urlServiceLayer);
                     if (loginResp.StatusCode == HttpStatusCode.OK)
                     {
+                        sociedad.inSession = true;
                         SessionId = loginResp.Cookies[0].Value.ToString();
                         RouteId = loginResp.Cookies[1].Value.ToString();
+                        sociedad.sessionId = SessionId;
+                        sociedad.routeId = RouteId;
 
                         foreach (var cliente in listClientes)
                         {
@@ -36,7 +39,13 @@ namespace WServMobile
                                                             + "?empId=" + sociedad.id
                                                             + "&clave=" + cliente.ClaveMovil, cliente))
                                 {
-                                    string newDoc = ClienteDAO.registrarCliente(SessionId, RouteId, MainProcess.mConn.urlServiceLayer, cliente);
+                                    bool locEnabled = true;
+                                    if (sociedad.LOCALIZACION == null)
+                                        locEnabled = false;
+                                    else if (sociedad.LOCALIZACION.Trim().Equals("N"))
+                                        locEnabled = false;
+
+                                    string newDoc = ClienteDAO.registrarCliente(SessionId, RouteId, MainProcess.mConn.urlServiceLayer, cliente, locEnabled);
                                     if (!string.IsNullOrEmpty(newDoc))
                                     {
                                         ClienteDAO.actualizarPropiedades(cliente.ClaveMovil, MainProcess.mConn.urlPatchSocioNegocio +
@@ -47,8 +56,6 @@ namespace WServMobile
                                 }
                             }
                         }
-
-                        LoginDAO.cerrarSesion(SessionId, RouteId, MainProcess.mConn.urlServiceLayer);
                     }
                     else
                     {
@@ -59,11 +66,6 @@ namespace WServMobile
             catch (Exception ex)
             {
                 MainProcess.log.Error("SocioNegocio > registrarSociosEnSAP() > " + ex.Message);
-            }
-            finally
-            {
-                if (!string.IsNullOrEmpty(SessionId) && !string.IsNullOrEmpty(RouteId))
-                    LoginDAO.cerrarSesion(SessionId, RouteId, MainProcess.mConn.urlServiceLayer);
             }
         }
     }

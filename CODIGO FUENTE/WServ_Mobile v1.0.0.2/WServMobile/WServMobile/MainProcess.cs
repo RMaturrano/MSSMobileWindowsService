@@ -34,6 +34,13 @@ namespace WServMobile
                             Incidencia.registrarIncidenciasEnSAP(sociedad);
                             Devolucion.registrarDevolucionesEnSAP(sociedad);
                             NotaCredito.registrarNotasCreditoEnSAP(sociedad);
+
+                            if (sociedad.inSession && !string.IsNullOrEmpty(sociedad.sessionId)
+                                && !string.IsNullOrEmpty(sociedad.routeId))
+                            {
+                                LoginDAO.cerrarSesion(sociedad.sessionId, sociedad.routeId, mConn.BaseUrl);
+                                sociedad.inSession = false;
+                            }
                         }
                     }
                 }

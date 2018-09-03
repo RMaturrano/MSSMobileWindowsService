@@ -77,10 +77,10 @@
       <HintPath>..\..\..\DLLS\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>F:\DLLS\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
-      <HintPath>F:\DLLS\RestSharp.dll</HintPath>
+      <HintPath>..\..\..\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -106,29 +106,31 @@
     <Compile Include="dao\OrdenVentaDAO.cs" />
     <Compile Include="dao\PagoDAO.cs" />
     <Compile Include="Devolucion.cs" />
-    <Compile Include="entity\ActivityBean.cs" />
-    <Compile Include="entity\AddressBean.cs" />
-    <Compile Include="entity\AddressLocationBean.cs" />
-    <Compile Include="entity\BatchNumberBean.cs" />
-    <Compile Include="entity\BusinessPartnerBean.cs" />
-    <Compile Include="entity\BusinessPartnerBeanLocationBean.cs" />
+    <Compile Include="entity\sl\ActivityBean.cs" />
+    <Compile Include="entity\sl\AddressBean.cs" />
+    <Compile Include="entity\sl\AddressLocationBean.cs" />
+    <Compile Include="entity\sl\BatchNumberBean.cs" />
+    <Compile Include="entity\sl\BusinessPartnerBean.cs" />
+    <Compile Include="entity\sl\BusinessPartnerBeanLocationBean.cs" />
     <Compile Include="entity\ClienteBean.cs" />
     <Compile Include="entity\ClienteContactoBean.cs" />
     <Compile Include="entity\ClienteDireccionBean.cs" />
     <Compile Include="entity\CompanyBean.cs" />
-    <Compile Include="entity\ContactBean.cs" />
+    <Compile Include="entity\sl\BusinessPartnerNoLocBean.cs" />
+    <Compile Include="entity\sl\ContactBean.cs" />
     <Compile Include="entity\DevolucionBean.cs" />
     <Compile Include="entity\DevolucionDetalleBean.cs" />
     <Compile Include="entity\DevolucionDetalleLoteBean.cs" />
     <Compile Include="entity\DevolucionDetalleUbicacionBean.cs" />
-    <Compile Include="entity\DraftBatchBean.cs" />
-    <Compile Include="entity\DraftBatchLineBean.cs" />
-    <Compile Include="entity\DraftBean.cs" />
-    <Compile Include="entity\DraftBeanAllocationBean.cs" />
-    <Compile Include="entity\DraftLineBean.cs" />
+    <Compile Include="entity\sl\DraftBatchBean.cs" />
+    <Compile Include="entity\sl\DraftBatchLineBean.cs" />
+    <Compile Include="entity\sl\DraftBean.cs" />
+    <Compile Include="entity\sl\DraftBeanAllocationBean.cs" />
+    <Compile Include="entity\sl\DraftLineBean.cs" />
     <Compile Include="entity\GeolocalizacionBean.cs" />
     <Compile Include="entity\IncidenciaBean.cs" />
-    <Compile Include="entity\IncomingPaymentBean.cs" />
+    <Compile Include="entity\sl\DraftNoLocBean.cs" />
+    <Compile Include="entity\sl\IncomingPaymentBean.cs" />
     <Compile Include="entity\NotaCreditoBean.cs" />
     <Compile Include="entity\NotaCreditoDetalleBean.cs" />
     <Compile Include="entity\NotaCreditoDetalleLoteBean.cs" />
@@ -136,15 +138,16 @@
     <Compile Include="entity\OrdenVentaDetalleBean.cs" />
     <Compile Include="entity\PagoBean.cs" />
     <Compile Include="entity\PagoDetalleBean.cs" />
-    <Compile Include="entity\PaymentCheckBean.cs" />
-    <Compile Include="entity\PaymentInvoiceBean.cs" />
+    <Compile Include="entity\sl\PaymentCheckBean.cs" />
+    <Compile Include="entity\sl\PaymentInvoiceBean.cs" />
     <Compile Include="entity\RequestParBean.cs" />
-    <Compile Include="entity\ReturnBean.cs" />
-    <Compile Include="entity\ReturnLineBean.cs" />
-    <Compile Include="entity\ReturnLineBinAllocationBean.cs" />
-    <Compile Include="entity\SalesOrderBean.cs" />
-    <Compile Include="entity\SalesOrderLineBean.cs" />
-    <Compile Include="entity\SerialNumberBean.cs" />
+    <Compile Include="entity\sl\ReturnBean.cs" />
+    <Compile Include="entity\sl\ReturnLineBean.cs" />
+    <Compile Include="entity\sl\ReturnLineBinAllocationBean.cs" />
+    <Compile Include="entity\sl\SalesOrderBean.cs" />
+    <Compile Include="entity\sl\SalesOrderLineBean.cs" />
+    <Compile Include="entity\sl\SalesOrderNoLocBean.cs" />
+    <Compile Include="entity\sl\SerialNumberBean.cs" />
     <Compile Include="entity\SLLoginBean.cs" />
     <Compile Include="helpers\Constant.cs" />
     <Compile Include="helpers\RestCall.cs" />

@@ -41,6 +41,7 @@
             // 
             this.MSSMobile.DisplayName = "WS App Mobile Seidor";
             this.MSSMobile.ServiceName = "MSSMobile";
+            this.MSSMobile.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
