@@ -48,5 +48,7 @@ namespace WServMobile.entity
         public string U_MSSM_TIP { get; set; }    //TipoIncidencia
         public DateTime? U_MSSM_FCP { get; set; }  //FechaCompromisoPago
 		public string U_MSSM_RAN { get; set; }    //Rango
+        public string U_MSSM_IMG { get; set; }    //IMG
+
     }
 }

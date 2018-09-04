@@ -34,5 +34,9 @@ namespace WServMobile.entity
         public string Mensaje { get; set; }
 		public string Rango { get; set; }
         public int EMPRESA { get; set; }
+
+        public string U_MSSM_IMG { get; set; }
+        public string Directorio { get; set; }
+        public string Foto64 { get; set; }
     }
 }

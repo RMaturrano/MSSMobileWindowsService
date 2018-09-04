@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using RestSharp;
 using WServMobile.entity;
 using WServMobile.helpers;
 
@@ -204,14 +201,14 @@ namespace WServMobile.dao
                 activity.EndDueDate = activity.ActivityDate;
 
                 if (!string.IsNullOrEmpty(incidencia.SerieFactura))
-                { 
+                {
                     activity.DocType = "13";
                     activity.DocEntry = incidencia.ClaveFactura != -1 ? incidencia.ClaveFactura.ToString() : null;
                     activity.U_MSSM_SER = incidencia.SerieFactura;
                     activity.U_MSSM_COR = incidencia.CorrelativoFactura.ToString();
                 }
 
-                if(!string.IsNullOrEmpty(incidencia.CodigoDireccion))
+                if (!string.IsNullOrEmpty(incidencia.CodigoDireccion))
                     activity.AddressName = incidencia.CodigoDireccion;
                 activity.U_MSSM_CLM = incidencia.ClaveMovil;
                 activity.U_MSSM_TRM = "05";
@@ -222,12 +219,19 @@ namespace WServMobile.dao
                 activity.U_MSSM_HOR = incidencia.HoraCreacion;
                 activity.U_MSSM_MOT = incidencia.CodigoMotivo != -1 ? incidencia.DescripcionMotivo : null;
 
-                activity.U_MSSM_FCP = !string.IsNullOrEmpty(incidencia.FechaPago) ? 
-                   (DateTime?) DateTime.ParseExact(incidencia.FechaPago,"yyyyMMdd", CultureInfo.InvariantCulture) : null;
+                activity.U_MSSM_FCP = !string.IsNullOrEmpty(incidencia.FechaPago) ?
+                   (DateTime?)DateTime.ParseExact(incidencia.FechaPago, "yyyyMMdd", CultureInfo.InvariantCulture) : null;
 
                 activity.U_MSSM_TIP = incidencia.TipoIncidencia != null ? incidencia.TipoIncidencia : null;
-			
+
                 activity.U_MSSM_RAN = incidencia.Rango;
+                activity.U_MSSM_IMG = incidencia.U_MSSM_IMG;
+
+                #region Guardar imagen en el servidor
+                DirectoryDAO.createDirectoryLocal(incidencia.Directorio);
+                if (!String.IsNullOrEmpty(incidencia.Directorio))
+                    DirectoryDAO.createFileDirectoryLocal(incidencia.Foto64, incidencia.Directorio + incidencia.U_MSSM_IMG);
+                #endregion
 
                 return activity;
             }
