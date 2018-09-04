@@ -228,9 +228,12 @@ namespace WServMobile.dao
                 activity.U_MSSM_IMG = incidencia.U_MSSM_IMG;
 
                 #region Guardar imagen en el servidor
-                DirectoryDAO.createDirectoryLocal(incidencia.Directorio);
-                if (!String.IsNullOrEmpty(incidencia.Directorio))
-                    DirectoryDAO.createFileDirectoryLocal(incidencia.Foto64, incidencia.Directorio + incidencia.U_MSSM_IMG);
+                if (!String.IsNullOrEmpty(incidencia.Directorio) && incidencia.Directorio != "null")
+                {
+                    DirectoryDAO.createDirectoryLocal(incidencia.Directorio);
+                    if (!String.IsNullOrEmpty(incidencia.Foto64) && incidencia.Foto64 != "null")
+                        DirectoryDAO.createFileDirectoryLocal(incidencia.Foto64, incidencia.Directorio + incidencia.U_MSSM_IMG);
+                }
                 #endregion
 
                 return activity;
