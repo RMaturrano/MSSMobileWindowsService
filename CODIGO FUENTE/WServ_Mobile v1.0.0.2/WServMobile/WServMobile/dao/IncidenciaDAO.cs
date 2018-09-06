@@ -232,7 +232,7 @@ namespace WServMobile.dao
                 {
                     DirectoryDAO.createDirectoryLocal(incidencia.Directorio);
                     if (!String.IsNullOrEmpty(incidencia.Foto64) && incidencia.Foto64 != "null")
-                        DirectoryDAO.createFileDirectoryLocal(incidencia.Foto64, incidencia.Directorio + incidencia.U_MSSM_IMG);
+                        DirectoryDAO.createFileDirectoryLocal(incidencia.Foto64, incidencia.Directorio + Path.GetFileName(incidencia.U_MSSM_IMG));
                 }
                 #endregion
 

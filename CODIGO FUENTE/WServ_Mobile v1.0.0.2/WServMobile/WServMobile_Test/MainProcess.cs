@@ -1,14 +1,7 @@
-﻿using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WServMobile_Test.connection;
 using WServMobile_Test.dao;
 using WServMobile_Test.entity;
-using WServMobile_Test.helpers;
 
 namespace WServMobile_Test
 {
@@ -29,14 +22,14 @@ namespace WServMobile_Test
                 {
                     foreach (var sociedad in sociedades)
                     {
-                       //  OrdenVenta.registrarOrdenesEnSAP(sociedad);
-                       // PagoRecibido.registrarPagosEnSAP(sociedad);
-                       // SocioNegocio.registrarSociosEnSAP(sociedad);
-                       // PagoRecibido.registrarPagosEnSAP(sociedad);
+                        //  OrdenVenta.registrarOrdenesEnSAP(sociedad);
+                        // PagoRecibido.registrarPagosEnSAP(sociedad);
+                        // SocioNegocio.registrarSociosEnSAP(sociedad);
+                        // PagoRecibido.registrarPagosEnSAP(sociedad);
                         //Incidencia.registrarIncidenciasEnSAP(sociedad);
                         //Ubicaciones.actualizarUbicacionesEnSAP(sociedad);
                         //Devolucion.registrarDevolucionesEnSAP(sociedad);
-                        if(sociedad.id == 2)
+                        if (sociedad.id == 2)
                             NotaCredito.registrarNotasCreditoEnSAP(sociedad);
 
                     }
