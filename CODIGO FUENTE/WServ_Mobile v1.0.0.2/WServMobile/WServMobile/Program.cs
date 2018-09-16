@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WServMobile
+﻿namespace WServMobile
 {
     static class Program
     {
@@ -14,12 +7,13 @@ namespace WServMobile
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
-            { 
-                new Main() 
-            };
-            ServiceBase.Run(ServicesToRun);
+            //ServiceBase[] ServicesToRun;
+            //ServicesToRun = new ServiceBase[] 
+            //{ 
+            //    new Main() 
+            //};
+            //ServiceBase.Run(ServicesToRun);
+            while (true) { new MainProcess().ejecutarProcesos(); }
         }
     }
 }

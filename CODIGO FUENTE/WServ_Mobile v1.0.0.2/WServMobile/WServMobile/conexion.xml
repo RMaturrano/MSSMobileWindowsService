@@ -2,8 +2,8 @@
 <Connection>
 
   <HANA>
-    <BaseUrl>http://190.116.31.110:8000/MSS_MOBILE/service</BaseUrl>
-    <UrlServiceLayer>https://190.116.31.110:50000/b1s/v1</UrlServiceLayer>
+    <BaseUrl>http://200.123.10.124:8000/MSS_MOBILE/service</BaseUrl>
+    <UrlServiceLayer>http://200.123.10.124:50000/b1s/v1</UrlServiceLayer>
 
     <GetEmpresa>company/getCompany.xsjs</GetEmpresa>
     <GetOrdenVenta>salesorder/getSalesOrderDrf.xsjs</GetOrdenVenta>
